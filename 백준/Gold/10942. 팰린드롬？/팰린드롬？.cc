@@ -25,7 +25,7 @@ int main(){
     }
     dp[N-1][N-1] = true;
 
-    for(int i = 2; i < N; i++){
+    for(int i = 2; i < N; i++){ // i는 구간 크기!!
         for(int j = 0; j < N - i; j++){
             if(v[j] == v[j + i] && dp[j + 1][j + i - 1]){
                 dp[j][j + i] = true;
