@@ -8,11 +8,28 @@
 class SegTree
 {
     int t[MAX_N * 4];
+    int lazy[MAX_N * 4];
 public:
     SegTree()
     {
         std::fill(t, t + MAX_N * 4, 0);
+        std::fill(lazy, lazy + MAX_N * 4, 0);
     }
+
+    void push(int node, int start, int end)
+    {
+        if(lazy[node] != 0)
+        {
+            t[node ] += (end - start + 1) * lazy[node];
+            if(start != end) // not leaf node
+            {
+                lazy[node * 2] += lazy[node];
+                lazy[node * 2 + 1] += lazy[node];
+            }
+            lazy[node] = 0;
+        }
+    }
+
     void build(const std::vector<int>& data)
     {
         build_recursive(data, 1, 0, MAX_N - 1);
@@ -31,8 +48,11 @@ public:
         return;
     }
 
+    // node : 현재 노드 인덱스, start, end : 현재 노드가 담당하는 구간, index : 업데이트할 위치, value : 업데이트할 값
     void update(int node, int start, int end, int index, int value)
     {
+        push(node, start, end);
+
         if(start == end) t[node] = value;
         else
         {
@@ -53,6 +73,7 @@ public:
 
     int query(int node, int start, int end, int left, int right)
     {
+        push(node, start, end);
         if(right < start || end < left) return 0;
         if(left <= start && end <= right) return t[node];
 
