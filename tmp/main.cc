@@ -1,35 +1,37 @@
 #include <iostream>
-#include <algorithm>
-#include <queue>
+#include <string>
 #include <vector>
-
 using namespace std;
 
-int N, K, T, W;
-vector<int> cost;
-vector<int> graph[1001];
+string prob;
 
-void solve(){
-    
+void solve(string s)
+{
+    int len = s.length();
+    vector<char> v(len + 1);
+    for(int i = 0; i < len; i++)
+    {
+        v[i] = s[len - i - 1];
+    }
+    v[len] = '\0';
+    for(int i = 0; i < len; i++)
+    {
+        if(v[i] != s[i])
+        {
+            cout << "no\n";
+            return;
+        }
+    }
+    cout << "yes\n";
+    return;
 }
 
-int main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(0), cout.tie(0);
-    cin >> T;
-    for(int testcase = 0; testcase < T; testcase++){
-        cin >> N >> K;
-        cost.resize(N);
-        for(int i = 0; i < N; i++){
-            cin >> cost[i];
-        }
-        for(int i = 0; i < K; i++){
-            int a, b;
-            cin >> a >> b;
-            graph[a].push_back(b);
-        }
-        cin >> W;
-        solve();
+int main()
+{
+    cin >> prob;
+    while(prob != "0")
+    {
+        solve(prob);
+        cin >> prob;
     }
-    return 0;
 }
