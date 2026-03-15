@@ -1,0 +1,14 @@
+# Claude
+CLAUDE.md
+
+# 컴파일 결과물
+*.out
+*.o
+*.exe
+
+# IDE
+.vscode/
+.idea/
+
+# 입출력 테스트 파일
+*.txt
