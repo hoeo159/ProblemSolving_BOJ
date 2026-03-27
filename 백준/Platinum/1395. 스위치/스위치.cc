@@ -19,7 +19,7 @@ struct Node
 
 int N, M;
 vector<int> v;
-Node segTree[8 * MAX_N];
+Node segTree[4 * MAX_N + 10];
 
 void build(int node, int start, int end)
 {
@@ -39,7 +39,7 @@ void build(int node, int start, int end)
 
 void pushDown(int node, int start, int end)
 {
-    if(segTree[node].lazy)
+    if(segTree[node].lazy && start != end)
     {
         int mid = (start + end) / 2;
         segTree[node * 2].sum = (mid - start + 1) - segTree[node * 2].sum;
