@@ -1,44 +1,54 @@
 #include <iostream>
 #include <vector>
-#include <stack>
 #include <algorithm>
 
 using namespace std;
 
-int N, M, S, E;
+int N, M;
 vector<int> v;
 bool dp[2001][2001];
 
-int main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(0), cout.tie(0);
+void solve()
+{
+    for(int i = 0; i < N; i++)
+    {
+        dp[i][i] = 1; // 길이 0
+    }
+    for(int i = 0; i < N - 1; i++)
+    {
+        dp[i][i + 1] = (v[i] == v[i + 1]); // 길이 1
+    }
+    for(int len = 2; len < N; len++)
+    {
+        for(int i = 0; i < N - len; i++)
+        {
+            int src = i, dst = i + len;
+            dp[src][dst] = dp[src + 1][dst - 1] && (v[src] == v[dst]);
+        }
+    }
+}
+
+int main()
+{
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    
     cin >> N;
     v.resize(N);
-
-    for(int i = 0; i < N; i++){
+    for(int i = 0; i < N; i++)
+    {
         cin >> v[i];
     }
 
-    for(int i = 0; i < N - 1; i++){
-        dp[i][i] = true;
-        if(v[i] == v[i+1])  dp[i][i+1] = true;
-    }
-    dp[N-1][N-1] = true;
+    solve();
 
-    for(int i = 2; i < N; i++){ // i는 구간 크기!!
-        for(int j = 0; j < N - i; j++){
-            if(v[j] == v[j + i] && dp[j + 1][j + i - 1]){
-                dp[j][j + i] = true;
-            }
-        }
-    }
     cin >> M;
-    for(int i = 0; i < M; i++){
-        cin >> S >> E;
-        if(dp[S-1][E-1]){
-            cout << "1\n";
-        }
-        else    cout << "0\n";  
+    for(int i = 0; i < M; i++)
+    {
+        int src, dst;
+        cin >> src >> dst;
+        cout << dp[src - 1][dst - 1] << "\n";
     }
+
     return 0;
 }
